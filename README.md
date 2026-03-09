@@ -131,7 +131,15 @@ tail -f logs/fashion-digest.log
 ## Claude Code 스킬
 
 이 프로젝트는 `~/.claude/skills/fashion-digest/` 스킬을 사용합니다.
-Claude Code 세션에서 직접 실행하려면:
+
+### 스킬 설치
+
+```bash
+mkdir -p ~/.claude/skills/fashion-digest
+cp skill/SKILL.md ~/.claude/skills/fashion-digest/SKILL.md
+```
+
+### Claude Code에서 직접 실행
 
 ```
 패션 기사 찾아줘
