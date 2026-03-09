@@ -1,0 +1,12 @@
+# 인증 정보 — 절대 커밋하지 말 것
+scripts/.env
+
+# 로그
+logs/
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
