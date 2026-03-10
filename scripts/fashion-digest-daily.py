@@ -36,8 +36,9 @@ ENV_FILE = SCRIPT_DIR / ".env"
 def load_env() -> None:
     """scripts/.env 파일에서 환경 변수를 로드한다."""
     if not ENV_FILE.exists():
-        raise FileNotFoundError(f".env 파일 없음: {ENV_FILE}\n"
-                                f"scripts/.env.example을 참고하여 생성하세요.")
+        raise FileNotFoundError(
+            f".env 파일 없음: {ENV_FILE}\nscripts/.env.example을 참고하여 생성하세요."
+        )
     with open(ENV_FILE) as f:
         for line in f:
             line = line.strip()
@@ -62,8 +63,11 @@ def run_claude_skill() -> bool:
             timeout=600,  # 10분 타임아웃
         )
         if result.returncode != 0:
-            logging.error("Claude 종료 코드 %d\nstderr: %s",
-                          result.returncode, result.stderr[:500])
+            logging.error(
+                "Claude 종료 코드 %d\nstderr: %s",
+                result.returncode,
+                result.stderr[:500],
+            )
             return False
         logging.info("Claude 스킬 완료")
         return True
@@ -82,7 +86,9 @@ def get_today_email_html() -> str | None:
         파일 경로 문자열, 없으면 None.
     """
     today = datetime.now().strftime("%Y-%m-%d")
-    pattern = str(FASHION_RESEARCH_DIR / f"{today}-fashion-digest.html")
+    pattern = str(
+        FASHION_RESEARCH_DIR / "output_email" / f"{today}-fashion-digest-email.html"
+    )
     files = glob.glob(pattern)
     if files:
         logging.info("이메일 HTML 발견: %s", files[0])

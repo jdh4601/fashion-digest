@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(mkdir -p /Users/jayden/Developer/fashion-research/.claude/commands && mv /Users/jayden/Developer/fashion-research/skill/SKILL.md /Users/jayden/Developer/fashion-research/.claude/commands/fashion-digest.md)"
+    ]
+  }
+}

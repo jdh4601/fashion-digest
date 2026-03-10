@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fashion Digest — 2026-03-10</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* 전체 레이아웃 */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #0a0a0a; color: #e8e8e8; font-family: 'Inter', sans-serif; }
+
+    /* 헤더 */
+    header { text-align: center; padding: 80px 20px 60px; border-bottom: 1px solid #2a2a2a; }
+    header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); color: #fff; letter-spacing: 0.05em; }
+    header .date { color: #c9a96e; font-size: 0.85rem; letter-spacing: 0.2em; text-transform: uppercase; margin-top: 12px; }
+    header .subtitle { color: #666; font-size: 0.9rem; margin-top: 8px; }
+
+    /* 카드 그리드 */
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 2px; padding: 2px; max-width: 1400px; margin: 40px auto; }
+
+    /* 카드 */
+    .card { background: #111; overflow: hidden; transition: transform 0.3s; }
+    .card:hover { transform: translateY(-4px); }
+    .card img { width: 100%; height: 220px; object-fit: cover; filter: brightness(0.85); }
+    .card-body { padding: 24px; }
+    .card-meta { display: flex; gap: 12px; margin-bottom: 12px; font-size: 0.75rem; color: #888; letter-spacing: 0.1em; text-transform: uppercase; }
+    .card-meta .source { color: #c9a96e; }
+    .card-number { font-family: 'Playfair Display', serif; font-size: 0.8rem; color: #c9a96e; margin-bottom: 8px; }
+    .card h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; line-height: 1.5; color: #fff; margin-bottom: 16px; }
+    .card h2 a { color: inherit; text-decoration: none; }
+    .card h2 a:hover { color: #c9a96e; }
+    .card .category { display: inline-block; font-size: 0.7rem; padding: 3px 10px; border: 1px solid #c9a96e33; color: #c9a96e; letter-spacing: 0.1em; margin-bottom: 14px; }
+    .section-title { font-size: 0.7rem; color: #555; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 6px; }
+    .summary { font-size: 0.88rem; line-height: 1.7; color: #bbb; margin-bottom: 16px; }
+    .insight { font-size: 0.85rem; line-height: 1.6; color: #999; border-left: 2px solid #c9a96e; padding-left: 12px; margin-bottom: 14px; }
+    .highlight { font-size: 0.8rem; color: #c9a96e; font-style: italic; }
+
+    /* 키워드 테이블 */
+    .keywords { max-width: 900px; margin: 60px auto; padding: 40px 20px; border-top: 1px solid #1e1e1e; }
+    .keywords h2 { font-family: 'Playfair Display', serif; color: #c9a96e; margin-bottom: 24px; font-size: 1.4rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    th { text-align: left; padding: 10px 16px; color: #c9a96e; border-bottom: 1px solid #2a2a2a; font-weight: 500; }
+    td { padding: 12px 16px; border-bottom: 1px solid #1a1a1a; color: #aaa; }
+
+    /* 푸터 */
+    footer { text-align: center; padding: 40px; color: #333; font-size: 0.75rem; letter-spacing: 0.1em; }
+
+    /* 런웨이 섹션 */
+    .runway-section { max-width: 1400px; margin: 60px auto 40px; padding: 0 2px; }
+    .runway-section-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fff; padding: 0 20px 20px; border-bottom: 1px solid #2a2a2a; margin-bottom: 32px; }
+    .runway-section-title span { color: #c9a96e; }
+    .runway-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 2px; }
+    .runway-card { background: #111; overflow: hidden; transition: transform 0.3s; }
+    .runway-card:hover { transform: translateY(-4px); }
+    .runway-card img { width: 100%; height: 280px; object-fit: cover; filter: brightness(0.8); transition: filter 0.3s; }
+    .runway-card:hover img { filter: brightness(1); }
+    .runway-card-body { padding: 22px; }
+    .runway-brand { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #fff; margin-bottom: 4px; }
+    .runway-meta { font-size: 0.75rem; color: #888; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+    .runway-meta .rw-designer { color: #c9a96e; }
+    .runway-summary { font-size: 0.88rem; line-height: 1.7; color: #bbb; margin-bottom: 14px; }
+    .runway-reactions { border-top: 1px solid #1e1e1e; padding-top: 14px; }
+    .reaction-label { font-size: 0.7rem; color: #555; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 4px; }
+    .critic-reaction { font-size: 0.85rem; line-height: 1.6; color: #999; border-left: 2px solid #c9a96e; padding-left: 10px; margin-bottom: 10px; }
+    .social-reaction { font-size: 0.82rem; line-height: 1.6; color: #888; font-style: italic; }
+
+    /* YouTube 섹션 */
+    .yt-section { max-width: 1400px; margin: 60px auto 40px; padding: 0 2px; }
+    .yt-section-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #fff; padding: 0 20px 20px; border-bottom: 1px solid #2a2a2a; margin-bottom: 32px; }
+    .yt-section-title span { color: #c9a96e; }
+    .yt-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .yt-card { background: #111; overflow: hidden; }
+    .yt-card:hover .yt-thumb-wrap img { transform: scale(1.03); }
+    .yt-thumb-wrap { position: relative; overflow: hidden; }
+    .yt-thumb-wrap img { width: 100%; height: 200px; object-fit: cover; filter: brightness(0.8); transition: transform 0.4s; }
+    .yt-play-badge { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 52px; height: 52px; background: rgba(255,0,0,0.85); border-radius: 50%; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+    .yt-play-badge::after { content: ''; border: 0 solid transparent; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 18px solid #fff; margin-left: 4px; }
+    .yt-card-body { padding: 24px; }
+    .yt-meta { display: flex; gap: 10px; font-size: 0.75rem; color: #888; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 10px; }
+    .yt-meta .yt-channel { color: #c9a96e; }
+    .yt-category { display: inline-block; font-size: 0.7rem; padding: 3px 10px; border: 1px solid rgba(255,107,107,0.4); color: #ff6b6b; letter-spacing: 0.1em; margin-bottom: 14px; }
+    .yt-card h3 { font-family: 'Playfair Display', serif; font-size: 1.1rem; line-height: 1.5; color: #fff; margin-bottom: 14px; }
+    .yt-card h3 a { color: inherit; text-decoration: none; }
+    .yt-card h3 a:hover { color: #c9a96e; }
+    .yt-summary { font-size: 0.88rem; line-height: 1.7; color: #bbb; }
+
+    @media (max-width: 1024px) {
+      .yt-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .yt-grid { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="date">2026년 03월 10일</div>
+    <h1>Fashion Digest</h1>
+    <div class="subtitle">동현님을 위한 오늘의 글로벌 패션 이슈 10선</div>
+  </header>
+
+  <main class="grid">
+    <!-- Article 1 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800" alt="Milan Fashion Week" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 01</div>
+        <div class="card-meta">
+          <span class="source">WWD</span>
+          <span>2026-03-02</span>
+        </div>
+        <span class="category">유통/리테일</span>
+        <h2><a href="https://wwd.com/business-news/retail/retailers-praise-milan-fashion-week-1238639521/" target="_blank">Milan Fashion Week: Retailers Praise Craftsmanship, Layering Trend, and Bold Debuts</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">밀라노 패션위크를 마친 글로벌 리테일 바이어들이 이번 시즌을 "자신감 있고 통일성 있는 밀라노"라며 긍정적으로 평가했다. Maria Grazia Chiuri의 펜디 데뷔, Demna의 첫 구치 런웨이, Meryll Rogge의 마르니 데뷔 등 새로운 크리에이티브 디렉터들의 등장이 시즌의 에너지를 높였다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">명품 소비 둔화 속에서도 밀라노는 제품의 실체성과 장인정신으로 차별화에 성공했다. Holt Renfrew, Harrods, Bergdorf Goodman 등 주요 백화점 바이어들은 "과시에서 실체로의 전환"을 언급하며, 고객들이 장기적인 가치와 품질을 추구하는 경향이 뚜렷하다고 분석했다.</p>
+        <p class="highlight">✦ Prada의 쇼 컨셉 — 같은 모델이 4가지 스타일로 등장하며 레이어링의 변화를 보여준 것은 "패션사에 기록될 만한" 혁신적인 프레젠테이션이었다.</p>
+      </div>
+    </article>
+
+    <!-- Article 2 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800" alt="Saks Global" onerror="this.src='https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 02</div>
+        <div class="card-meta">
+          <span class="source">Business of Fashion</span>
+          <span>2026-03-07</span>
+        </div>
+        <span class="category">유통/리테일</span>
+        <h2><a href="https://www.businessoffashion.com/news/retail/saks-global-to-shut-fifteen-more-stores-amid-restructuring/" target="_blank">Saks Global to Shut 15 More Stores as Part of Restructuring</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">올해 초 파산 보호를 신청한 Saks Global이 15개 매장을 추가 폐쇄한다고 발표했다. 이번 폐쇄는 Saks Fifth Avenue 12개, Neiman Marcus 3개 지점으로, 수익성이 낮은 오프프라이즈 비즈니스 중심의 구조조정 일환이다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">Saks의 위기는 럭셔리 백화점 모델의 구조적 한계를 드러낸다. 1년 전 Saks Fifth Avenue와 Neiman Marcus를 통합하며 "럭셔리 강국"을 꿈꿨던 계획은 34억 달러 부채와 함께 물거품이 되었다. 법원은 17억 5천만 달러의 파산 재정을 승인했지만, 향후 벤더들의 진정한 시험대가 될 것이다.</p>
+        <p class="highlight">✦ Saks의 재고 유동성 개선에도 불구하고, Chanel, D&G, LVMH 등 주요 럭셔리 브랜드들은 여전히 새로운 거래 조건에 대한 우려를 해소하지 못하고 있다.</p>
+      </div>
+    </article>
+
+    <!-- Article 3 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800" alt="EU Sustainability" onerror="this.src='https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 03</div>
+        <div class="card-meta">
+          <span class="source">Business of Fashion</span>
+          <span>2026-02-10</span>
+        </div>
+        <span class="category">지속가능성/ESG</span>
+        <h2><a href="https://www.businessoffashion.com/news/sustainability/eu-to-ban-destruction-of-unsold-clothes-and-shoes/" target="_blank">EU to Ban Destruction of Unsold Clothes and Shoes</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">유럽연합 집행위원회가 미판매 의류와 신발의 폐기 금지 조치를 채택했다. ESPR 프레임워크 하에 대기업은 2026년 7월 19일부터, 중견기업은 2030년부터 의류·신발·액세서리의 소각 및 폐기가 금지된다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">이번 금지령은 패션 산업의 순환 경제 전환을 가속화하는 중요한 규제이다. 그러나 일批評家들은 "미판매 재고는 사고가 아니라 비즈니스 모델"이라며 과잉생산이라는 근본 원인을 해결하지 않는다고 지적한다. EPR 제도와 함께 브랜드들은 폐기물 처리 비용까지 부담하게 될 것이다.</p>
+        <p class="highlight">✦ EU에 따르면 미판매 섬유의 4-9%가 착용 전 폐기되어 약 560만 톤의 탄소 배출을 유발하고 있다.</p>
+      </div>
+    </article>
+
+    <!-- Article 4 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800" alt="Hypermasculinity" onerror="this.src='https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 04</div>
+        <div class="card-meta">
+          <span class="source">Vogue Business</span>
+          <span>2026-03-06</span>
+        </div>
+        <span class="category">컬처/트렌드</span>
+        <h2><a href="https://www.voguebusiness.com/article/from-tech-bros-to-looksmaxxers-why-did-hypermasculinity-rule-at-fashion-week" target="_blank">From Tech Bros to Looksmaxxers: Why Did Hypermasculinity Rule at Fashion Week?</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">2026 가을/겨울 패션위크는 "하이퍼-최적화된 남성"의 시즌이었다. 연간 200만 달러를 들여 생체 나이를 되돌리려는 Bryan Johnson이 Matières Fécales 런웨이에 데뷔했고, Demna의 첫 구치 쇼에는 근육질이 드러나는 타이트한 티셔츠가 등장했다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">이러한 남성 최적화 트렌드는 알고리즘 시대의 남성성 재정의를 반영한다. Mark Zuckerberg, Jeff Bezos 등 테크 억만장자들의 패션위크 등장은 "럭셔리가 돈이 있는 곳으로 가는" 산업 트렌드를 보여준다. ASOS의 남성용 머슬핏 탑 입고량은 2026년 1분기 전년 대비 84% 증가했다.</p>
+        <p class="highlight">✦ "'Face card'는 아름다움을 한도 없는 신용카드에 비유하며, 좋은 외모가 접근, 관심, 지위를 보장함을 암시한다" - The Future Laboratory</p>
+      </div>
+    </article>
+
+    <!-- Article 5 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800" alt="AI Fashion" onerror="this.src='https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 05</div>
+        <div class="card-meta">
+          <span class="source">WWD</span>
+          <span>2026-03-06</span>
+        </div>
+        <span class="category">테크/AI</span>
+        <h2><a href="https://wwd.com/business-news/business-features/2026-fashion-beauty-trends-ai-luxury-wellness-gen-z-1238654821/" target="_blank">2026 Fashion & Beauty Trends: AI, Luxury Gaps & Wellness Drive Retail</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">Listrak의 2026 Beauty and Fashion Benchmarks 보고서가 1,000개 이커머스 고객의 1,300억 개 이메일과 SMS 데이터를 분석해 4대 예측을 발표했다: AI 에이전트 통합, 무료 배송/반품 시대의 종료, 인간적 연결의 중요성 증가, VIP 개인화의 필수화.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">패션 산업은 AI와 디지털 전환으로 큰 변화를 맞고 있다. 특히 GLP-1(비만 치료제) 사용자가 미국 인구의 12.4%에 달하면서 의류 리테일러들은 사이즈와 재고 할당을 재조정해야 한다. 상위 10% 소득자가 GDP의 50%를 차지하는 가운데, 럭셔리와 할인 시장 간 격차가 벌어지고 있다.</p>
+        <p class="highlight">✦ Sephora, Gap 등 대기업이 자체 크리에이터 플랫폼에 투자하는 추세 — Gen Z는 크리에이터 생태계를 통해 패션을 발견하고 구매한다.</p>
+      </div>
+    </article>
+
+    <!-- Article 6 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800" alt="Dior" onerror="this.src='https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 06</div>
+        <div class="card-meta">
+          <span class="source">WWD</span>
+          <span>2026-03-03</span>
+        </div>
+        <span class="category">럭셔리/런웨이</span>
+        <h2><a href="https://wwd.com/runway/fall-2026/paris/christian-dior/review/" target="_blank">Dior Fall 2026: Sun King</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">Jonathan Anderson이 디올 튀일리 가든에서 선보인 2026 가을 컬렉션은 18세기 코드를 현대적으로 재해석했다. 가짜 수련이 떠 있는 연못과 유리 온실이 설치된 쇼장에서, Anderson은 디컨스트럭티드 프록 코트, 페플럼 재킷, 버스틀 스커트를 캔디 아몬드 색상의 샹틸 레이스와 메탈릭 자카드로 제시했다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">Anderson은 "영원한 라인은 더 이상 없다"며 포스트 팬데믹 시대의 과도한 가격 인상으로 5천만 명의 열망 소비자가 시장을 떠난 현실을 언급했다. 그는 특히 가방 분야에서 소량 생산으로 품질을 높이는 전략을 강조했다. 이는 명품 브랜드들이 1% 부유층을 겨냥해야 하는 시대적 상황을 반영한다.</p>
+        <p class="highlight">✦ "태양은 모든 사람에게 빛을 비춘다" — Anderson의 귀족적 코드가 열망 소비자들의 등을 돌린 럭셔리 시장에서 통할지는 미지수지만, 그의 장인정신에 대한 집중은 분명하다.</p>
+      </div>
+    </article>
+
+    <!-- Article 7 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=800" alt="Balenciaga" onerror="this.src='https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 07</div>
+        <div class="card-meta">
+          <span class="source">The Zoe Report</span>
+          <span>2026-03-08</span>
+        </div>
+        <span class="category">럭셔리/런웨이</span>
+        <h2><a href="https://www.thezoereport.com/fashion/balenciagas-fall-winter-2026-show-review" target="_blank">Balenciaga's Fall/Winter 2026 Collection Shined A Light On Paris Fashion Week</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">Pierpaolo Piccioli가 Balenciaga에서 선보인 두 번째 레디투웨어 컬렉션은 샹젤리제의 어두운 공간에서 열렸다. Euphoria 감독 Sam Levinson과 협업한 쇼 세트에서, 그는 첫 9룩을 블랙 레더와 울로 제시하며 전임자 Demna Gvasalia와의 차별화를 유지했다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">Piccioli는 "나는 사람들에 깊이 관심이 있다. 그들이 가진 내러티브, 그들의 삶을 형성하는 복잡하게 얽힌 경로들"이라며 자신의 크리에이티브 철학을 밝혔다. 외투류의 다양한 실루엣, 새로운 핸드백(George, Fan), 그리고 "클래르 옵스큐르" 기법의 이브닝웨어는 그의 폭넓은 디자인 범위를 증명했다.</p>
+        <p class="highlight">✦ Winona Ryder, Harris Dickinson, Naomi Watts 등 A급 셀럽들의 프론트로우 참석은 그의 업계적 지지를 보여준다.</p>
+      </div>
+    </article>
+
+    <!-- Article 8 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800" alt="Tom Ford" onerror="this.src='https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 08</div>
+        <div class="card-meta">
+          <span class="source">WWD</span>
+          <span>2026-03-05</span>
+        </div>
+        <span class="category">럭셔리/런웨이</span>
+        <h2><a href="https://wwd.com/runway/fall-2026/paris/tom-ford/review/" target="_blank">Tom Ford Fall 2026: Sobering Up</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">Haider Ackermann이 Tom Ford에서 선보인 2026 가을 컬렉션은 핀스트라이프, 화이트 셔츠, 군사적 테일러링이 특징이었다. Place Vendôme의 여백의 미가 돋보이는 쇼장에서 Ackermann은 "이 세상에서 일어나는 모든 것에 마주하여 똑바로 서는 것"에 대해 이야기했다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">Ackermann은 "모두가 큰 소리로 비명을 지르고 거짓말을 하는 폭력적인 세계"에서 겸손의 결여를 지적하며 기본으로의 회귀를 강조했다. 투명한 플라스틱 레인코트는 유럽의 참혹한 날씨에 대한 답이자, 사람들이 필요로 하는 보호의 상징으로 해석될 수 있다.</p>
+        <p class="highlight">✦ Ackermann은 과거의 "방탕함"과 대조적으로 모델들이 "갑자기 똑바로 서서 모든 것에 정직하게 마주"하는 모습을 보여주고자 했다.</p>
+      </div>
+    </article>
+
+    <!-- Article 9 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800" alt="Givenchy" onerror="this.src='https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 09</div>
+        <div class="card-meta">
+          <span class="source">WWD</span>
+          <span>2026-03-06</span>
+        </div>
+        <span class="category">럭셔리/런웨이</span>
+        <h2><a href="https://wwd.com/runway/fall-2026/paris/givenchy/review/" target="_blank">Givenchy Fall 2026: I'm Every Woman</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">Sarah Burton이 Givenchy에서 선보인 가을 컬렉션은 벨벳, 애니멀 프린트, 기모노 실크, 레이스, 실버 불리옹 등 다양한 소재와 질감으로 여성성을 축하했다. 회전하는 조트로프처럼 설계된 어두운 런웨이에서 각 모델은 서프라이즈처럼 등장했다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">Burton은 "이것은 매우 개인적인 것이다. 무너지는 세상에서 자신을 어떻게 다시 결합하는가에 관한 것"이라고 말했다. 그녀는 Lee Alexander McQueen 시절의 옐로우 자카드를 발굴하고 개인적 유물을 반영하며 컬렉션을 구성했다. Jenna Ortega가 입고 화제가 된 주얼드 탑의 신버전도 등장했다.</p>
+        <p class="highlight">✦ Burton은 "여성의 모든 요소와 그것을 어떻게 탐색하는가"에 대해 이야기하며, Prada의 레이어링처럼 여성의 다양한 감정과 경험에 어떻게 말을 건넬 것인지를 탐구했다.</p>
+      </div>
+    </article>
+
+    <!-- Article 10 -->
+    <article class="card">
+      <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=800" alt="Middle East" onerror="this.src='https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800'">
+      <div class="card-body">
+        <div class="card-number">No. 10</div>
+        <div class="card-meta">
+          <span class="source">Business of Fashion</span>
+          <span>2026-03-04</span>
+        </div>
+        <span class="category">글로벌마켓</span>
+        <h2><a href="https://www.businessoffashion.com/articles/global-markets/war-in-the-gulf-tests-resilience-of-a-rare-bright-patch-for-luxury/" target="_blank">War in the Gulf Tests Resilience of a Rare Bright Patch for Luxury</a></h2>
+        <div class="section-title">핵심 요약</div>
+        <p class="summary">미국-이스라엘과 이란 간의 전쟁 격화가 중동의 럭셔리 소매 환경을 흔들고 있다. 두바이와 아부다비는 견고한 관광 경제를 구축하고 부유한 외국인 거주자를 끌어들여 명품 산업의 드문 "밝은 구간"이 되어왔다. 그러나 최근 공습으로 공항이 폐쇄되면서 지역 비즈니스 활동이 중단되었다.</p>
+        <div class="section-title">시사점</div>
+        <p class="insight">이번 위기는 지정학이 얼마나 빨리 럭셔리 산업의 신중하게 육성된 리테일 허브를 교란할 수 있는지 보여준다. 중동은 지난 2년 반 동안의 불확실성 이후 드문 안정의 오아시스 역할을 해왔다. 부유층 소비자들이 지출을 줄이는 가운데, 이 지역의 불안정성은 럭셔리 브랜드들에게 또 다른 타격이 될 수 있다.</p>
+        <p class="highlight">✦ 중동 리테일러들은 고객들이 오히려 "더 안전한 두바이"로 오고 있다는 관찰을 보고하며, 지역 내 쇼핑이 유럽이나 미국보다 더 안전한 대안으로 여겨질 수 있다는 흥미로운 역설을 제시한다.</p>
+      </div>
+    </article>
+  </main>
+
+  <section class="yt-section">
+    <h2 class="yt-section-title">YouTube — <span>오늘의 패션 영상 3선</span></h2>
+    <div class="yt-grid">
+
+      <article class="yt-card">
+        <div class="yt-thumb-wrap">
+          <img src="https://img.youtube.com/vi/ZMoA9VslOF0/maxresdefault.jpg" alt="Tom Ford FW26/27">
+          <a href="https://www.youtube.com/watch?v=ZMoA9VslOF0" target="_blank"><div class="yt-play-badge"></div></a>
+        </div>
+        <div class="yt-card-body">
+          <div class="yt-meta">
+            <span class="yt-channel">Fashion Feed</span>
+            <span>2026-03-04</span>
+          </div>
+          <span class="yt-category">글로벌 런웨이/컬렉션</span>
+          <h3><a href="https://www.youtube.com/watch?v=ZMoA9VslOF0" target="_blank">Tom Ford | Fall/Winter 2026/27 | Paris Fashion Week</a></h3>
+          <p class="yt-summary">Haider Ackermann이 디자인한 Tom Ford 2026 F/W 컬렉션의 풀 패션쇼. 파리 패션위크에서 선보인 이 쇼는 핀스트라이프 수트, 화이트 셔츠, 군사적 테일러링이 특징이며, 투명한 플라스틱 레인코트와 80년대 파워 드레싱의 현대적 재해석이 돋보인다.</p>
+        </div>
+      </article>
+
+      <article class="yt-card">
+        <div class="yt-thumb-wrap">
+          <img src="https://img.youtube.com/vi/A3rtjr7sXDA/maxresdefault.jpg" alt="Saint Laurent FW26/27">
+          <a href="https://www.youtube.com/watch?v=A3rtjr7sXDA" target="_blank"><div class="yt-play-badge"></div></a>
+        </div>
+        <div class="yt-card-body">
+          <div class="yt-meta">
+            <span class="yt-channel">Fashion Feed</span>
+            <span>2026-03-03</span>
+          </div>
+          <span class="yt-category">럭셔리 브랜드</span>
+          <h3><a href="https://www.youtube.com/watch?v=A3rtjr7sXDA" target="_blank">Saint Laurent | Fall/Winter 2026/27 | Paris Fashion Week</a></h3>
+          <p class="yt-summary">Anthony Vaccarello가 디자인한 Saint Laurent 2026 F/W 컬렉션의 풀 패션쇼. YSL의 시그니처인 "파리지앵 시크"를 현대적으로 재해석한 이번 컬렉션은 날카로운 실루엣, 블랙 레더, 그리고 우아한 이브닝웨어가 특징이다.</p>
+        </div>
+      </article>
+
+      <article class="yt-card">
+        <div class="yt-thumb-wrap">
+          <img src="https://img.youtube.com/vi/VqG5DzcDOxI/maxresdefault.jpg" alt="ELIE SAAB FW26-27">
+          <a href="https://www.youtube.com/watch?v=VqG5DzcDOxI" target="_blank"><div class="yt-play-badge"></div></a>
+        </div>
+        <div class="yt-card-body">
+          <div class="yt-meta">
+            <span class="yt-channel">ELIE SAAB</span>
+            <span>2026-03-07</span>
+          </div>
+          <span class="yt-category">패션 뉴스/인사이트</span>
+          <h3><a href="https://www.youtube.com/watch?v=VqG5DzcDOxI" target="_blank">ELIE SAAB | Ready-to-Wear Fall Winter 26-27</a></h3>
+          <p class="yt-summary">Elie Saab의 2026 F/W 레디투웨어 컬렉션은 90년대 뉴욕 아트 신경에 몰입한 여성을 그린다. 지적인이면서도 섹슈얼한 이 컬렉션은 다운타운 파워 테일러링과 업타운 플로럴을 트위스트와 함께 선보인다.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="runway-section">
+    <h2 class="runway-section-title">Runway — <span>이번 시즌 럭셔리 5선</span></h2>
+    <div class="runway-grid">
+
+      <article class="runway-card">
+        <img src="https://img.youtube.com/vi/HAaJ9muLCqI/maxresdefault.jpg" alt="Dior FW26" onerror="this.src='https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800'">
+        <div class="runway-card-body">
+          <div class="runway-brand">Dior Fall/Winter 2026</div>
+          <div class="runway-meta">
+            <span class="rw-designer">Jonathan Anderson</span> &nbsp;·&nbsp; 2026-03-03 &nbsp;·&nbsp; Tuileries Garden, Paris
+          </div>
+          <p class="runway-summary">Jonathan Anderson이 선보인 디올의 2026 가을 컬렉션은 18세기 "태양왕" 루이 14세 시대의 코드를 현대적으로 재해석했다. 디컨스트럭티드 프록 코트, 페플럼 재킷, 버스틀 스커트를 캔디 아몬드 색상과 샹틸 레이스로 제시했다.</p>
+          <div class="runway-reactions">
+            <div class="reaction-label">비평가 반응</div>
+            <p class="critic-reaction">WWD의 Joelle Diderich: "Jonathan Anderson이 더 화창한 날을 위해 디올 컬렉션을 선보일 수 없었다. 첫 번째 룩이 바람에 휘날리는 트레인과 함께 기분 좋은 톤을 설정했다."</p>
+            <div class="reaction-label">대중/소셜 반응</div>
+            <p class="social-reaction">Jisoo와 Anya Taylor-Joy의 프론트로우 참석이 소셜 미디어에서 화제. Anderson의 "공식이 없을 것"이라는 발언은 디올의 새로운 방향성에 대한 기대를 높였다.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="runway-card">
+        <img src="https://img.youtube.com/vi/YGLzqH8_Fpo/maxresdefault.jpg" alt="Balenciaga FW26" onerror="this.src='https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800'">
+        <div class="runway-card-body">
+          <div class="runway-brand">Balenciaga Fall/Winter 2026</div>
+          <div class="runway-meta">
+            <span class="rw-designer">Pierpaolo Piccioli</span> &nbsp;·&nbsp; 2026-03-07 &nbsp;·&nbsp; Champs Elysees, Paris
+          </div>
+          <p class="runway-summary">Pierpaolo Piccioli의 두 번째 발렌시아가 컬렉션은 샹젤리제의 어두운 공간에서 열렸다. Euphoria 감독 Sam Levinson과 협업한 쇼 세트에서 블랙 레더와 울로 차별화를 유지하면서도 기존 팬들에게도 양보했다.</p>
+          <div class="runway-reactions">
+            <div class="reaction-label">비평가 반응</div>
+            <p class="critic-reaction">The Zoe Report의 Jessica Minkoff: "Piccioli가 많은 것에 빛을 비추었다. 그는 엄청난 범위를 가지고 있다는 사실을 증명했다."</p>
+            <div class="reaction-label">대중/소셜 반응</div>
+            <p class="social-reaction">Winona Ryder, Harris Dickinson, Naomi Watts 등 A급 셀럽들의 프론트로우가 소셜 미디어에서 화제가 되었다.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="runway-card">
+        <img src="https://img.youtube.com/vi/ld9Wzn6Jtrk/maxresdefault.jpg" alt="Tom Ford FW26" onerror="this.src='https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800'">
+        <div class="runway-card-body">
+          <div class="runway-brand">Tom Ford Fall/Winter 2026</div>
+          <div class="runway-meta">
+            <span class="rw-designer">Haider Ackermann</span> &nbsp;·&nbsp; 2026-03-05 &nbsp;·&nbsp; Place Vendôme, Paris
+          </div>
+          <p class="runway-summary">Haider Ackermann이 선보인 톰 포드의 2026 가을 컬렉션은 핀스트라이프, 화이트 셔츠, 군사적 테일러링이 특징이다. "이 세상에서 일어나는 모든 것에 마주하여 똑바로 서는 것"에 대한 메시지를 전달했다.</p>
+          <div class="runway-reactions">
+            <div class="reaction-label">비평가 반응</div>
+            <p class="critic-reaction">WWD의 Samantha Conti: Ackermann이 "시대를 반영하는 어둡지만 가장자리가 있는 의상"을 선보였다. "기본으로 돌아가는 것"과 "모두가 인간"이라는 메시지는 "분열된 시대에 대한 패션의 응답"이다.</p>
+            <div class="reaction-label">대중/소셜 반응</div>
+            <p class="social-reaction">투명한 플라스틱 레인코트와 개들의 엘리자베스式 칼라를 연상시키는 모자가 소셜 미디어에서 유머러스한 반응을 이끌어냈다.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="runway-card">
+        <img src="https://img.youtube.com/vi/_RZJSL0fNVE/maxresdefault.jpg" alt="Givenchy FW26" onerror="this.src='https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800'">
+        <div class="runway-card-body">
+          <div class="runway-brand">Givenchy Fall/Winter 2026</div>
+          <div class="runway-meta">
+            <span class="rw-designer">Sarah Burton</span> &nbsp;·&nbsp; 2026-03-06 &nbsp;·&nbsp; Paris
+          </div>
+          <p class="runway-summary">Sarah Burton이 선보인 지방시의 2026 가을 컬렉션은 벨벳, 애니멀 프린트, 기모노 실크, 레이스, 실버 불리옹 등 다양한 소재와 질감으로 여성성을 축하했다. 회전하는 조트로프처럼 설계된 런웨이에서 각 모델은 서프라이즈처럼 등장했다.</p>
+          <div class="runway-reactions">
+            <div class="reaction-label">비평가 반응</div>
+            <p class="critic-reaction">WWD의 Miles Socha: "Burton이 모든 것을 확신에 찬 솜씨로 연출했다. 그녀는 이미 지방시를 여성 중심적으로 만들었고, 이번에는 더욱 확장했다."</p>
+            <div class="reaction-label">대중/소셜 반응</div>
+            <p class="social-reaction">Jenna Ortega가 입고 화제가 된 주얼드 탑의 신버전이 등장하며 이미 바이어를 확보했다는 소식이 팬들 사이에서 반가움을 샀다.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="runway-card">
+        <img src="https://img.youtube.com/vi/tOi6Wz9Kucw/maxresdefault.jpg" alt="Gucci FW26" onerror="this.src='https://images.unsplash.com/photo-1617137968427-85924c800a22?w=800'">
+        <div class="runway-card-body">
+          <div class="runway-brand">Gucci Fall/Winter 2026</div>
+          <div class="runway-meta">
+            <span class="rw-designer">Demna</span> &nbsp;·&nbsp; 2026-02-28 &nbsp;·&nbsp; Palazzo delle Scintille, Milan
+          </div>
+          <p class="runway-summary">Demna가 구치에서 선보인 첫 런웨이 컬렉션은 Tom Ford 시대의 황금기를 오마주했다. 1923년에 지어진 늦은 아르누보 양식의 Palazzo delle Scintille에서 열린 쇼는 거의 1,000명의 게스트를 앞에 두고 진행되었다.</p>
+          <div class="runway-reactions">
+            <div class="reaction-label">비평가 반응</div>
+            <p class="critic-reaction">Vogue의 Elektra Kotsoni: "정확하고, 숙고된, 틀림없이 구치. Demna는 '10년 동안 자신을 인상시키려 했고, 구치에서는 갑자기 감정적 공간에서 창작할 수 있다는 것을 깨달았다.'"</p>
+            <div class="reaction-label">대중/소셜 반응</div>
+            <p class="social-reaction">미식축구 선수 Gavin Weiss가 타이트한 폴로 셔츠로 데뷔한 것과 "Demna wants you to start Guccimaxxing"이라는 GQ의 헤드라인이 소셜 미디어에서 바이럴이 되었다.</p>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="keywords">
+    <h2>이번 주 핵심 키워드</h2>
+    <table>
+      <tr><th>키워드</th><th>관련 기사</th></tr>
+      <tr><td>장인정신 (Craftsmanship)</td><td>Milan Fashion Week 리테일 반응, Dior, Tom Ford</td></tr>
+      <tr><td>레이어링 (Layering)</td><td>Prada 쇼 컨셉, Givenchy, 밀라노 트렌드</td></tr>
+      <tr><td>지속가능성 규제</td><td>EU 미판매 의류 폐기 금지</td></tr>
+      <tr><td>하이퍼 남성성</td><td>Tech Bros, Looksmaxxers, Gucci 쇼</td></tr>
+      <tr><td>AI/디지털 전환</td><td>2026 트렌드 리포트, 컨버세이셔널 커머스</td></tr>
+      <tr><td>럭셔리 위기</td><td>Saks Global 파산, 중동 분쟁 영향</td></tr>
+      <tr><td>새 크리에이티브 디렉터</td><td>Demna(Gucci), Piccioli(Balenciaga), Burton(Givenchy)</td></tr>
+      <tr><td>글로벌 지정학</td><td>중동 분쟁, 관세 정책</td></tr>
+    </table>
+  </section>
+
+  <footer>Generated by fashion-digest skill · 2026-03-10</footer>
+</body>
+</html>
